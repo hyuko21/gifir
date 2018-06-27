@@ -1,30 +1,44 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SocialIcon, Button, Divider } from 'react-native-elements';
+import { SocialIcon, Divider } from 'react-native-elements';
+import { Facebook } from 'expo';
+
+import firebase from '../firebase';
 
 export default class Login extends Component {
+
+  onLogin = (method) => {
+    switch (method) {
+      case 'facebook':
+        this.onLoginFacebook();
+        break;
+      case 'google+':
+        this.onLoginGooglePlus();
+    }
+
+    this.props.navigation.navigate('Gifs');
+  }
+
+  onLoginGooglePlus = () => {
+    return;
+  }
+
+  onLoginFacebook = () => {
+    return;
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'stretch' }}>
-          <View style={{ flex: 1, justifyContent: 'space-around' }}>
-            <Text style={{ fontSize: 78, fontWeight: 'bold', textAlign: 'center' }}>gifir</Text>
-            <Button 
-              title={'Sign In Anonymously'}
-              borderRadius={50}
-              raised
-              onPress={() => this.props.onLogin()}
-              backgroundColor={'#b3343f'}
-              style={{ marginBottom: 20 }}
-            />
-          </View>
+        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+          <Text style={{ fontSize: 78, fontWeight: 'bold', textAlign: 'center' }}>gifir</Text>
         </View>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'stretch' }}>  
+        <View style={{ flex: 2, justifyContent: 'center' }}>
           <SocialIcon
             title={'Sign In With Google+'}
             button
             raised
-            onPress={() => this.props.onLogin()}
+            onPress={this.onLogin('google+')}
             type={'google-plus-official'}
           />
           <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
@@ -36,7 +50,7 @@ export default class Login extends Component {
             title={'Sign In With Facebook'}
             button
             raised
-            onPress={() => this.props.onLogin()}
+            onPress={this.onLogin('facebook')}
             type={'facebook'}
           />
         </View>

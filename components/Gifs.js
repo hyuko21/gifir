@@ -8,12 +8,31 @@ import GifCard from './GifCard';
 export default class Gifs extends Component {
   state = {
     gifs: [],
-    content: null,
+    searchText: '',
+    searchOffset: 10,
   };
 
-  searchGifs = (text) => {
-    fetch(`${giphy.apiEndpoint}q=${text}`).then(data => data.json())
-      .then(json => this.setState({ gifs: json.data }));
+  getUrl = (searchText, searchOffset) => (
+    `${giphy.apiEndpoint}&q=${searchText}&offset=${searchOffset || 0}`
+  );
+
+  searchGifs = async () => {
+    if (!this.state.searchText) return;
+
+    const result = await fetch(this.getUrl(this.state.searchText));
+    const json = result.json();
+    this.setState({ gifs: json.data });
+  }
+
+  moreGifs = async () => {
+    if (!this.state.searchText) return;
+
+    const result = await fetch(this.getUrl(this.state.searchText, this.state.searchOffset));
+    const json = result.json();
+    this.setState({ 
+      gifs: json.data,
+      searchOffset: this.state.searchOffset + 10,
+    });
   }
 
   renderGif = ({ item }) => (
@@ -26,7 +45,10 @@ export default class Gifs extends Component {
         <SearchBar 
           placeholder={'SEARCH GIFS'}
           autoCapitalize={'none'}
+          value={this.state.searchText}
+          onChangeText={searchText => this.setState({ searchText })}
           onSubmitEditing={this.searchGifs}
+          autoFocus
         />
         <FlatList
           data={this.state.gifs}
@@ -35,10 +57,14 @@ export default class Gifs extends Component {
         />
         <View style={{ backgroundColor: '#0099dd', flexDirection: 'row' }}>
           <View style={{ flex: 1 }}>
-            <Button backgroundColor={'#0099dd'} title={'Leave'} />
+            <Button backgroundColor={'#0099dd'} title={'Favorites'} />
           </View>
           <View style={{ flex: 1 }}>
-            <Button backgroundColor={'#0099dd'} title={'More'} />
+            <Button 
+              backgroundColor={'#0099dd'} 
+              title={'More'} 
+              onPress={this.moreGifs}
+            />
           </View>
         </View>
       </View>

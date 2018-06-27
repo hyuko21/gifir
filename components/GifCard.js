@@ -1,13 +1,40 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Tile } from 'react-native-elements';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
-const GifCard = (props) => (
-  <Tile
-    featured
-    title={props.title}
-    imageSrc={{ uri: props.image.url }}
-    titleStyle={{ backgroundColor: 'rgba(0,0,0,0.5)' }} />
-);
+import firebase from '../firebase';
 
-export default GifCard;
+export default class GifCard extends Component {
+  state = {
+    favorite: false,
+  }
+
+  onFavorite = () => {
+    alert('this.props.title');
+    firebase.database().ref(`/${this.props.id}`).set({
+      title: this.props.title,
+      url: this.props.image.url,
+    });
+    this.setState({ favorite: !this.state.favorite });
+  }
+
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <Tile
+          featured
+          imageSrc={{ uri: this.props.image.url }} 
+          onPress={this.onFavorite} 
+          icon={{
+            size: 100,
+            name: (this.state.favorite && 'favorite') || 'favorite-border',
+            iconStyle: { 
+              color: (this.state.favorite && '#ff000055') || '#00000000',
+              textAlign: 'left'
+            }
+          }}
+          contentContainerStyle={{ height: 100, padding: 0 }} />
+      </View>
+    );
+  }
+};

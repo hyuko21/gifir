@@ -1,28 +1,33 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { createStackNavigator } from 'react-navigation';
 import { Constants } from 'expo';
 
 import Login from './components/Login';
 import Gifs from './components/Gifs';
 
-export default class App extends Component {
-  state = {};
-
-  onLogin = () => {
-    this.setState({
-      content: <Gifs />,
-    });
-  }
-
+class App extends Component {
   render() {
-    return (
-      <View style={styles.container}>
-        {!this.state.content && <Login onLogin={this.onLogin} />}
-        {this.state.content && <Gifs />}
-      </View>
-    );
+    return <View style={styles.container} />
   }
 }
+
+export default createStackNavigator({ 
+  Login: {
+    screen: Login,
+    navigationOptions: {
+      headerTitle: 'Login',
+      headerTitleStyle: { fontWeight: 'bold', color: '#b3343f' },
+    },
+  }, 
+  Gifs: {
+    screen: Gifs,
+    navigationOptions: {
+      headerTitle: 'Gifs',
+      headerTitleStyle: { fontWeight: 'bold', color: '#b3343f' },
+    },
+  },
+});
 
 const styles = StyleSheet.create({
   container: {
