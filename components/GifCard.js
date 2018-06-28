@@ -10,8 +10,7 @@ export default class GifCard extends Component {
   }
 
   onFavorite = () => {
-    alert('this.props.title');
-    firebase.database().ref(`/${this.props.id}`).set({
+    firebase.database().ref(this.props.id).set({
       title: this.props.title,
       url: this.props.image.url,
     });
@@ -23,6 +22,7 @@ export default class GifCard extends Component {
       <View style={{ flex: 1 }}>
         <Tile
           featured
+          title={this.props.title}
           imageSrc={{ uri: this.props.image.url }} 
           onPress={this.onFavorite} 
           icon={{

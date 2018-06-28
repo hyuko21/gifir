@@ -3,8 +3,9 @@ import { StyleSheet, View } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import { Constants } from 'expo';
 
-import Login from './components/Login';
+import Home from './components/Home';
 import Gifs from './components/Gifs';
+import Favorites from './components/Favorites';
 
 class App extends Component {
   render() {
@@ -13,18 +14,25 @@ class App extends Component {
 }
 
 export default createStackNavigator({ 
-  Login: {
-    screen: Login,
+  Home: {
+    screen: Home,
     navigationOptions: {
-      headerTitle: 'Login',
-      headerTitleStyle: { fontWeight: 'bold', color: '#b3343f' },
+      headerTitle: 'Home',
+      headerTitleStyle: { fontWeight: 'bold' },
     },
   }, 
   Gifs: {
     screen: Gifs,
     navigationOptions: {
       headerTitle: 'Gifs',
-      headerTitleStyle: { fontWeight: 'bold', color: '#b3343f' },
+      headerTitleStyle: { fontWeight: 'bold' },
+    },
+  },
+  Favorites: {
+    screen: Favorites,
+    navigationOptions: {
+      headerTitle: 'Favorites',
+      headerTitleStyle: { fontWeight: 'bold' },
     },
   },
 });

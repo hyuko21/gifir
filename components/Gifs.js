@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { FlatList, View } from 'react-native';
-import { SearchBar, Button } from 'react-native-elements';
+import { Button, FlatList, View } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 
 import * as giphy from '../giphy';
 import GifCard from './GifCard';
@@ -20,15 +20,15 @@ export default class Gifs extends Component {
     if (!this.state.searchText) return;
 
     const result = await fetch(this.getUrl(this.state.searchText));
-    const json = result.json();
+    const json = await result.json();
     this.setState({ gifs: json.data });
   }
 
   moreGifs = async () => {
-    if (!this.state.searchText) return;
+    if (!this.state.searchText || !this.state.gifs.length) return;
 
     const result = await fetch(this.getUrl(this.state.searchText, this.state.searchOffset));
-    const json = result.json();
+    const json = await result.json();
     this.setState({ 
       gifs: json.data,
       searchOffset: this.state.searchOffset + 10,
@@ -43,25 +43,28 @@ export default class Gifs extends Component {
     return (
       <View style={{ flex: 1 }}>
         <SearchBar 
-          placeholder={'SEARCH GIFS'}
+          placeholder={'Search gifs'}
           autoCapitalize={'none'}
           value={this.state.searchText}
           onChangeText={searchText => this.setState({ searchText })}
-          onSubmitEditing={this.searchGifs}
+          onBlur={this.searchGifs}
+          style={{ fontSize: 30 }}
           autoFocus
+          lightTheme
         />
         <FlatList
           data={this.state.gifs}
           keyExtractor={item => item.id}
           renderItem={this.renderGif}
         />
-        <View style={{ backgroundColor: '#0099dd', flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row' }}>
           <View style={{ flex: 1 }}>
-            <Button backgroundColor={'#0099dd'} title={'Favorites'} />
+            <Button 
+              title={'Favorites'} 
+              onPress={() => this.props.navigation.navigate('Favorites')} />
           </View>
           <View style={{ flex: 1 }}>
             <Button 
-              backgroundColor={'#0099dd'} 
               title={'More'} 
               onPress={this.moreGifs}
             />
