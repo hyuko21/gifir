@@ -37,4 +37,4 @@ export default class GifCard extends Component {
       </View>
     );
   }
-};
+}
