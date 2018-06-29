@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Tile } from 'react-native-elements';
 import { View } from 'react-native';
 
-import firebase from '../firebase';
+import firebase from '../firebase/index';
 
 export default class GifCard extends Component {
   state = {
