@@ -1,17 +1,8 @@
-import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
-import { Constants } from 'expo';
 
 import Home from './components/Home';
 import Gifs from './components/Gifs';
 import Favorites from './components/Favorites';
-
-class App extends Component {
-  render() {
-    return <View style={styles.container} />
-  }
-}
 
 export default createStackNavigator({ 
   Home: {
