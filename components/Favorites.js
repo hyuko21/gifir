@@ -3,7 +3,7 @@ import { Button, FlatList, View } from 'react-native';
 
 import GifCard from './GifCard';
 
-import firebase from '../firebase/index';
+import firebase from 'firebase';
 
 export default class Favorites extends Component {
   state = {
